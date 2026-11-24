@@ -1,0 +1,41 @@
+# What a chunk must contain to answer each question in answer_key.json (same order, by id).
+#   row:   all of these in ONE table row (one line), e.g. the row still names its branch
+#   chunk: all of these somewhere in the same chunk or its heading (e.g. the header, caption, notes)
+#   also:  a second piece of evidence, found in any chunk (questions that need two tables)
+# Matching ignores case, spacing and the kind of dash.
+
+- {id: 1, row: [Hyderabad, Q3, "3,663"], chunk: [Revenue]}
+- {id: 2, row: [Subtotal Sindh, "537,345"], chunk: [Revenue]}
+- {id: 3, row: [KH-198, Q2, "4,409"], chunk: [Cost]}
+- {id: 4, row: [Gwadar, Q4, "12,010"], chunk: [Margin]}
+- {id: 5, row: [GRAND TOTAL, "3,062,252"], chunk: [Revenue]}
+- {id: 6, row: [Group revenue, "3,063,502"], chunk: [unaudited]}
+- {id: 7, chunk: [final audit adjustment, "3,062,252"]}
+- {id: 8, row: [KF-26-5001, Karachi SITE], chunk: [Destination]}
+- {id: 9, row: [KF-26-5001, ✓], chunk: [✓ delivered]}
+- {id: 10, row: [Sindh, "160,845"], chunk: [FY2026 - H2 - Revenue]}
+- {id: 11, row: [Khyber Pakhtunkhwa, "144,412"], chunk: [FY2025 - H1 - Cost]}
+- {id: 12, row: [South, Balochistan], chunk: [Zone]}
+- {id: 13, row: [Tyre set, "3.602,75"], chunk: [FY2026]}
+- {id: 14, row: [Driver daily allowance, n/a], chunk: [FY2026]}
+- {id: 15, row: [Standard freight, Mountain, "120"]}
+- {id: 16, row: [Cold chain, Full replacement value]}
+- {id: 17, row: [Reefer 20ft, "33"], chunk: [Leased]}
+- {id: 18, row: [Atlas Tyres], chunk: [Supplier, Table 7b]}
+- {id: 19, row: [Mehran Foods, "87,933"], chunk: [Customer, Table 7a]}
+- {id: 20, chunk: [Drivers*, must not be added]}
+- {id: 21, chunk: [Includes Lahore HQ, 63 permanent staff]}
+- {id: 22, row: [Sindh, "218,789", "160,845"], chunk: [FY2026 - H1 - Revenue], also: {row: [Sindh, "389"], chunk: [Permanent]}}
+- {id: 23, row: [Quetta, "89,596"], chunk: [Mar]}
+- {id: 24, row: [AP-317, R. Khattak, "12,300,000"]}
+- {id: 25, row: [Tolls, "212,000", Not yet reconciled]}
+- {id: 26, row: [IT systems, "(36,700)"]}
+- {id: 27, row: [C. Fatima, ✗], chunk: [Hazmat handling]}
+- {id: 28, row: [ERP migration, amber], chunk: [Legend]}
+- {id: 29, row: [NTN, 4410287-6]}
+- {id: 30, row: [Approved, ☑ Yes]}
+- {id: 31, row: [23-Jun, "1,720"], chunk: [MUL]}
+- {id: 32, row: [B4, "108"], chunk: [Lahore Central]}
+- {id: 33, row: [Ali Hussain, Skardu]}
+- {id: 34, row: [Claims ratio, 0.37%], chunk: [Table 18]}
+- {id: 35, chunk: ["165,166", Sindh]}

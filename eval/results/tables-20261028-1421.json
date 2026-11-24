@@ -1,0 +1,219 @@
+{
+ "extraction_version": 3,
+ "chunks": 88,
+ "headless_table_pieces": 0,
+ "watermark_chunks": 0,
+ "questions": [
+  {
+   "id": 1,
+   "question": "What was Hyderabad branch revenue in Q3 FY2026 (PKR '000)?",
+   "kind": "lookup",
+   "ok": true
+  },
+  {
+   "id": 2,
+   "question": "What is the Sindh regional subtotal revenue?",
+   "kind": "aggregate",
+   "ok": true
+  },
+  {
+   "id": 3,
+   "question": "What is the branch code of the branch whose Q2 cost was 4,409?",
+   "kind": "reverse-lookup",
+   "ok": true
+  },
+  {
+   "id": 4,
+   "question": "What was Gwadar's Q4 margin?",
+   "kind": "lookup",
+   "ok": true
+  },
+  {
+   "id": 5,
+   "question": "What is the FY2026 grand total revenue in Table 1?",
+   "kind": "aggregate",
+   "ok": true
+  },
+  {
+   "id": 6,
+   "question": "What group revenue does the executive summary report for FY2026?",
+   "kind": "conflict",
+   "ok": true
+  },
+  {
+   "id": 7,
+   "question": "What is the correct (audited) group revenue for FY2026?",
+   "kind": "conflict",
+   "ok": true
+  },
+  {
+   "id": 8,
+   "question": "What is the destination of shipment KF-26-5001?",
+   "kind": "lookup",
+   "ok": true
+  },
+  {
+   "id": 9,
+   "question": "What is the status symbol of shipment KF-26-5001 and what does it mean?",
+   "kind": "lookup",
+   "ok": true
+  },
+  {
+   "id": 10,
+   "question": "What was Sindh's revenue in H2 FY2026 according to Table 3 as printed?",
+   "kind": "multi-level-header",
+   "ok": true
+  },
+  {
+   "id": 11,
+   "question": "What was Khyber Pakhtunkhwa's cost in H1 FY2025?",
+   "kind": "multi-level-header",
+   "ok": true
+  },
+  {
+   "id": 12,
+   "question": "Which zone does Balochistan belong to?",
+   "kind": "row-span",
+   "ok": true
+  },
+  {
+   "id": 13,
+   "question": "What was the FY2026 price of a 10-wheeler tyre set in EUR?",
+   "kind": "number-format",
+   "ok": true
+  },
+  {
+   "id": 14,
+   "question": "What is the FY2026 driver daily allowance?",
+   "kind": "missing-value",
+   "ok": true
+  },
+  {
+   "id": 15,
+   "question": "What is the maximum transit time for standard freight to mountain zones?",
+   "kind": "nested-table",
+   "ok": true
+  },
+  {
+   "id": 16,
+   "question": "What is the penalty for late cold chain delivery?",
+   "kind": "lookup",
+   "ok": true
+  },
+  {
+   "id": 17,
+   "question": "How many Reefer 20ft vehicles are leased?",
+   "kind": "rotated-table",
+   "ok": true
+  },
+  {
+   "id": 18,
+   "question": "Who is the number 3 supplier?",
+   "kind": "side-by-side",
+   "ok": true
+  },
+  {
+   "id": 19,
+   "question": "What revenue did Mehran Foods generate?",
+   "kind": "side-by-side",
+   "ok": true
+  },
+  {
+   "id": 20,
+   "question": "Should drivers be added to permanent and contract staff to get total headcount?",
+   "kind": "footnote",
+   "ok": true
+  },
+  {
+   "id": 21,
+   "question": "How many permanent staff work at Lahore HQ?",
+   "kind": "footnote",
+   "ok": true
+  },
+  {
+   "id": 22,
+   "question": "What is Sindh FY2026 revenue per permanent employee (PKR '000)? Use Table 3 FY2026 H1+H2 revenue and Table 8 permanent headcount.",
+   "kind": "cross-table",
+   "ok": true
+  },
+  {
+   "id": 23,
+   "question": "How many litres of diesel did the Quetta depot use in March?",
+   "kind": "split-table",
+   "ok": true
+  },
+  {
+   "id": 24,
+   "question": "Who approved AP-317 and for what amount?",
+   "kind": "scanned-table",
+   "ok": true
+  },
+  {
+   "id": 25,
+   "question": "What is the actual Tolls expense in FY2026?",
+   "kind": "missing-value",
+   "ok": true
+  },
+  {
+   "id": 26,
+   "question": "What was the IT systems variance?",
+   "kind": "lookup",
+   "ok": true
+  },
+  {
+   "id": 27,
+   "question": "Has C. Fatima completed Hazmat handling?",
+   "kind": "vertical-header",
+   "ok": true
+  },
+  {
+   "id": 28,
+   "question": "What was the status of the ERP migration in April?",
+   "kind": "colour-only",
+   "ok": true
+  },
+  {
+   "id": 29,
+   "question": "What is Atlas Tyres' NTN?",
+   "kind": "form",
+   "ok": true
+  },
+  {
+   "id": 30,
+   "question": "Was the vendor approved?",
+   "kind": "form",
+   "ok": true
+  },
+  {
+   "id": 31,
+   "question": "How many consignments did the Multan (MUL) depot handle on 23 June?",
+   "kind": "dense-table",
+   "ok": true
+  },
+  {
+   "id": 32,
+   "question": "How many pallet spaces are free in bay B4 of the Lahore Central depot?",
+   "kind": "back-to-back",
+   "ok": true
+  },
+  {
+   "id": 33,
+   "question": "Who manages the Skardu branch?",
+   "kind": "rtl-mixed",
+   "ok": true
+  },
+  {
+   "id": 34,
+   "question": "What was the claims ratio?",
+   "kind": "two-column-layout",
+   "ok": true
+  },
+  {
+   "id": 35,
+   "question": "What is the corrected Sindh revenue for FY2026 H2?",
+   "kind": "conflict",
+   "ok": true
+  }
+ ],
+ "search_ranks": null
+}

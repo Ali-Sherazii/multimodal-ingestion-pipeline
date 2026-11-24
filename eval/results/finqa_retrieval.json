@@ -1,0 +1,250 @@
+{
+ "run": "20261027-0036",
+ "questions": 1147,
+ "units": {
+  "paper": "6a4844d35a90cc37",
+  "ours": "cd86409dbf657f8b"
+ },
+ "settings": {
+  "chunk_size": 400,
+  "chunk_overlap": 100,
+  "embedding_model": "BAAI/bge-m3",
+  "reranker_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+  "rerank_candidates": 30,
+  "exact_match": true
+ },
+ "setups": [
+  "dense",
+  "full + MiniLM",
+  "full + bge-reranker-v2-m3"
+ ],
+ "results": {
+  "dense | paper": {
+   "any@5": 42.9,
+   "items@5": 35.0,
+   "any@10": 50.0,
+   "items@10": 41.2,
+   "any@20": 58.0,
+   "items@20": 49.0,
+   "mrr@10": 32.1
+  },
+  "_pages | dense | paper": {
+   "right page in top 5": 53.9,
+   "right page in top 20": 69.9
+  },
+  "full + MiniLM | paper": {
+   "any@5": 48.2,
+   "items@5": 40.3,
+   "any@10": 57.4,
+   "items@10": 48.6,
+   "any@20": 67.7,
+   "items@20": 58.1,
+   "mrr@10": 34.3
+  },
+  "_pages | full + MiniLM | paper": {
+   "right page in top 5": 62.8,
+   "right page in top 20": 81.6
+  },
+  "full + bge-reranker-v2-m3 | paper": {
+   "any@5": 57.0,
+   "items@5": 47.9,
+   "any@10": 64.5,
+   "items@10": 55.4,
+   "any@20": 71.3,
+   "items@20": 61.9,
+   "mrr@10": 43.9
+  },
+  "_pages | full + bge-reranker-v2-m3 | paper": {
+   "right page in top 5": 69.8,
+   "right page in top 20": 83.3
+  },
+  "_candidates | paper": 85.7,
+  "_coverage | paper": {
+   "gold items held by no unit": 0,
+   "questions affected": {},
+   "malformed keys": {}
+  },
+  "dense | ours": {
+   "any@5": 50.5,
+   "items@5": 40.9,
+   "any@10": 58.2,
+   "items@10": 47.8,
+   "any@20": 66.0,
+   "items@20": 54.9,
+   "mrr@10": 38.3
+  },
+  "_pages | dense | ours": {
+   "right page in top 5": 64.7,
+   "right page in top 20": 80.7
+  },
+  "full + MiniLM | ours": {
+   "any@5": 49.0,
+   "items@5": 40.1,
+   "any@10": 60.1,
+   "items@10": 49.4,
+   "any@20": 70.0,
+   "items@20": 58.7,
+   "mrr@10": 36.3
+  },
+  "_pages | full + MiniLM | ours": {
+   "right page in top 5": 66.3,
+   "right page in top 20": 86.0
+  },
+  "full + bge-reranker-v2-m3 | ours": {
+   "any@5": 58.6,
+   "items@5": 48.2,
+   "any@10": 66.6,
+   "items@10": 55.7,
+   "any@20": 72.2,
+   "items@20": 60.9,
+   "mrr@10": 46.2
+  },
+  "_pages | full + bge-reranker-v2-m3 | ours": {
+   "right page in top 5": 70.5,
+   "right page in top 20": 85.7
+  },
+  "_candidates | ours": 89.9,
+  "_coverage | ours": {
+   "gold items held by no unit": 1,
+   "questions affected": {
+    "JPM/2018/page_90.pdf-1": [
+     "text_21"
+    ]
+   },
+   "malformed keys": {}
+  }
+ },
+ "paper": {
+  "Naive RAG (bge-base-en-v1.5 dense, FAISS)": [
+   62.3,
+   74.8,
+   83.5
+  ],
+  "Advanced RAG (dense + BM25 + query expansion)": [
+   68.1,
+   79.4,
+   87.2
+  ],
+  "FinAgent-RAG iteration 1 (fine-tuned retriever)": [
+   69.7,
+   80.6,
+   88.1
+  ],
+  "FinAgent-RAG iteration 3 (LLM query refinement; not comparable)": [
+   82.3,
+   90.1,
+   94.3
+  ]
+ },
+ "misses": [
+  {
+   "id": "ETR/2016/page_23.pdf-2",
+   "question": "what is the net change in net revenue during 2015 for entergy corporation?",
+   "gold": [
+    "2014 net revenue | $ 5735",
+    "2015 net revenue | $ 5829"
+   ],
+   "retrieved": [
+    {
+     "page": "ETR/2015/page_18.pdf",
+     "text": "as shown in the table above , net revenue for entergy wholesale commodities decreased by approximately $ 558 million in 2015 primarily due to : 2022 lower realized wholesale energy prices , primarily "
+    },
+    {
+     "page": "ETR/2016/page_382.pdf",
+     "text": "entergy mississippi requested a net increase in revenue of $ 49 million for bills rendered during calendar year 2015 , including $ 30 million resulting from new depreciation rates to update the estima"
+    },
+    {
+     "page": "ETR/2016/page_24.pdf",
+     "text": "as shown in the table above , net revenue for entergy wholesale commodities decreased by approximately $ 558 million in 2016 primarily due to : 2022 lower realized wholesale energy prices , primarily "
+    }
+   ]
+  },
+  {
+   "id": "FIS/2010/page_70.pdf-2",
+   "question": "what portion of total purchase price is related to stock awards?",
+   "gold": [
+    "value of metavante stock awards | 121.4",
+    "total purchase price | $ 4187.8"
+   ],
+   "retrieved": [
+    {
+     "page": "SNPS/2012/page_64.pdf",
+     "text": "the company allocated the total purchase consideration of $ 316.6 million ( including $ 4.6 million related to stock awards assumed ) to the assets acquired and liabilities assumed based on their resp"
+    },
+    {
+     "page": "SNPS/2009/page_59.pdf",
+     "text": "the fair value of stock options assumed was determined using a black-scholes valuation model . the fair value of stock awards vested or earned of $ 4.2 million was included as part of the purchase pri"
+    },
+    {
+     "page": "UPS/2014/page_61.pdf",
+     "text": "cash outflows related to the repurchase of shares to satisfy tax withholding obligations on vested employee stock awards were $ 224 , $ 253 and $ 234 million for 2014 , 2013 and 2012 , respectively . "
+    }
+   ]
+  },
+  {
+   "id": "MAS/2017/page_27.pdf-2",
+   "question": "what was the difference in percentage cumulative total shareholder return on masco common stock versus the s&p 500 index for the five year period ended 2017?",
+   "gold": [
+    "masco | $ 138.48 | $ 155.26 | $ 200.79 | $ 227.08 | $ 318.46",
+    "s&p 500 index | $ 132.04 | $ 149.89 | $ 151.94 | $ 169.82 | $ 206.49"
+   ],
+   "retrieved": [
+    {
+     "page": "BLL/2012/page_31.pdf",
+     "text": "shareholder return performance the line graph below compares the annual percentage change in ball corporation fffds cumulative total shareholder return on its common stock with the cumulative total re"
+    },
+    {
+     "page": "BLL/2011/page_29.pdf",
+     "text": "shareholder return performance the line graph below compares the annual percentage change in ball corporation fffds cumulative total shareholder return on its common stock with the cumulative total re"
+    },
+    {
+     "page": "BLL/2010/page_28.pdf",
+     "text": "page 15 of 100 shareholder return performance the line graph below compares the annual percentage change in ball corporation 2019s cumulative total shareholder return on its common stock with the cumu"
+    }
+   ]
+  },
+  {
+   "id": "GS/2015/page_188.pdf-2",
+   "question": "what percentage of future minimum rental payments are due in 2018?",
+   "gold": [
+    "2018 | 301",
+    "total | $ 2575"
+   ],
+   "retrieved": [
+    {
+     "page": "AWK/2018/page_178.pdf",
+     "text": "as of december 31 , 2018 , the minimum annual future rental commitment under the operating leases for the portion of the facilities funded by the partners that have initial or remaining non-cancelable"
+    },
+    {
+     "page": "ANET/2017/page_156.pdf",
+     "text": "as of december 31 , 2017 , the aggregate future minimum payments under non-cancelable operating leases consist of the following ( in thousands ) : years ending december 31 . rent expense for all opera"
+    },
+    {
+     "page": "ADI/2019/page_85.pdf",
+     "text": "total rental expense under operating leases was approximatelya $ 92.3 million in fiscal 2019 , $ 84.9 million in fiscal 2018 and $ 58.8 million in fiscal 2017 . the following is a schedule of futureff"
+    }
+   ]
+  },
+  {
+   "id": "CMCSA/2015/page_112.pdf-2",
+   "question": "what was the change in unrecognized tax benefits from the end of 2014 to the end of 2015?",
+   "gold": [
+    "balance december 31 | $ 1136 | $ 1171 | $ 1701"
+   ],
+   "retrieved": [
+    {
+     "page": "AMT/2016/page_125.pdf",
+     "text": "during the years ended december 31 , 2016 , 2015 and 2014 , the statute of limitations on certain unrecognized tax benefits lapsed and certain positions were effectively settled , which resulted in a "
+    },
+    {
+     "page": "RSG/2015/page_126.pdf",
+     "text": "republic services , inc . notes to consolidated financial statements 2014 ( continued ) the following table summarizes the activity in our gross unrecognized tax benefits for the years ended december "
+    },
+    {
+     "page": "KIM/2014/page_131.pdf",
+     "text": "open years range from 2008 through 2014 and vary by jurisdiction and issue . the aggregate changes in the balance of unrecognized tax benefits for the years ended december 31 , 2014 and 2013 were as f"
+    }
+   ]
+  }
+ ]
+}

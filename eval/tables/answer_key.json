@@ -1,0 +1,519 @@
+{
+  "document": "kestrel_annual_report_2026.pdf",
+  "pages": 22,
+  "fictional": true,
+  "tables": {
+    "1": {
+      "caption": "Table 1: Quarterly revenue and cost by branch, FY2026 (PKR '000)",
+      "challenge": "~150 rows over several pages; header repeats on each page; region group rows span all columns; branch name/code only on the first of four rows (implicit row-span); subtotal rows; accounting-style negatives in parentheses; watermark text drawn over the table.",
+      "pages": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "0": {
+      "caption": "Table 0: Headline figures (unaudited)",
+      "challenge": "Small summary table whose revenue figure CONFLICTS with Table 1 grand total; the errata page gives the correct value.",
+      "pages": [
+        2
+      ]
+    },
+    "2": {
+      "caption": "Table 2: Shipment log, sample of 95 consignments",
+      "challenge": "Multi-page table whose header is NOT repeated on continuation pages; Unicode status symbols; long wrapped text in the last column; random row heights.",
+      "pages": [
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "3": {
+      "caption": "Table 3: Revenue and cost by region and half-year (PKR '000)",
+      "challenge": "Three-level column header (year > half > measure) with column spans; zone column uses vertical row spans; on a landscape page; referenced by Tables 8 and the errata.",
+      "pages": [
+        11
+      ]
+    },
+    "4": {
+      "caption": "Table 4: Unit rates and indices",
+      "challenge": "No borders or shading at all (whitespace-only columns); decimal-aligned numbers; European number format mixed with Pakistani/US format; unicode minus signs; 'n/a' and dash for missing values. Decimal alignment makes the PDF store each number as two separate text fragments (e.g. '3' and '.602,75').",
+      "pages": [
+        12
+      ]
+    },
+    "5": {
+      "caption": "Table 5: Service level commitments",
+      "challenge": "Cells contain bullet lists, multi-sentence paragraphs and a table nested inside a cell.",
+      "pages": [
+        12
+      ]
+    },
+    "6": {
+      "caption": "Table 6: Fleet inventory at 30 June 2026",
+      "challenge": "Twelve-column table drawn rotated 90 degrees on a portrait page; text runs bottom-to-top.",
+      "pages": [
+        13
+      ]
+    },
+    "7": {
+      "caption": "Table 7a / 7b: Top 5 customers / Top 5 suppliers",
+      "challenge": "Two separate tables placed side by side with no gap row; the detector may merge them into one 6-column table and mix customers with suppliers.",
+      "pages": [
+        14
+      ]
+    },
+    "8": {
+      "caption": "Table 8: Headcount at year end",
+      "challenge": "Footnote markers (a, b, c, *, †) inside header and body cells with footnotes printed below the table; a cell that refers to another table.",
+      "pages": [
+        14
+      ]
+    },
+    "9": {
+      "caption": "Table 9: Diesel consumption by depot, litres (July–December)",
+      "challenge": "A table too wide for the page, split horizontally: July–December on one page, January–June on the next page with only row numbers repeated (no depot names). Rows must be re-joined by '#'.",
+      "pages": [
+        15,
+        16
+      ]
+    },
+    "10": {
+      "caption": "Table 10: Approval register, scanned from the signed paper copy",
+      "challenge": "Table exists only as a low-quality, slightly rotated JPEG image: needs OCR plus table-structure recognition on noisy pixels.",
+      "pages": [
+        16
+      ]
+    },
+    "11": {
+      "caption": "Table 11: Budget versus actual, FY2026 (PKR '000)",
+      "challenge": "Empty cells, 'nil', em dashes, 'n/a', accounting negatives, a percentage column with unicode minus; one row pulls its value from Table 1.",
+      "pages": [
+        17
+      ]
+    },
+    "12": {
+      "caption": "Table 12: Mandatory training completion by employee",
+      "challenge": "Column headers are vertical (rotated) text; no grid lines, only zebra shading; cells hold symbols and partial percentages.",
+      "pages": [
+        17
+      ]
+    },
+    "13": {
+      "caption": "Table 13: Monthly RAG status by project",
+      "challenge": "Status is encoded ONLY by cell colour (no text in cells); meaning is in a legend below. Text extraction sees an empty grid.",
+      "pages": [
+        18
+      ]
+    },
+    "14": {
+      "caption": "Table 14: Vendor registration (form)",
+      "challenge": "A key-value FORM laid out as a grid: two key/value pairs per row. Treating it as a normal table with a header row gives wrong column semantics; checkboxes as unicode symbols.",
+      "pages": [
+        18
+      ]
+    },
+    "15": {
+      "caption": "Table 15: Consignments handled per depot per day",
+      "challenge": "14 columns × 31 rows in 5.5 pt font with faint hairline grid; depot names are abbreviations explained nowhere in the table.",
+      "pages": [
+        19
+      ]
+    },
+    "16a": {
+      "caption": "Table 16a: Karachi Port depot bays",
+      "challenge": "Two tables with identical columns placed directly after each other, separated only by a one-line caption; they may be merged into one table and lose which depot each row belongs to.",
+      "pages": [
+        20
+      ]
+    },
+    "16b": {
+      "caption": "Table 16b: Lahore Central depot bays",
+      "challenge": "(second half of the 16a/16b pair)",
+      "pages": [
+        20
+      ]
+    },
+    "17": {
+      "caption": "Table 17: Branch managers (caption printed BELOW the table)",
+      "challenge": "Mixed English and Urdu (right-to-left) columns; caption placed below the table instead of above.",
+      "pages": [
+        20
+      ]
+    },
+    "18": {
+      "caption": "Table 18: Customer KPIs (inside a two-column text layout)",
+      "challenge": "Small table embedded in the first column of a two-column page; reading order must not mix the table with the neighbouring column's text.",
+      "pages": [
+        21
+      ]
+    },
+    "Errata": {
+      "caption": "Errata",
+      "challenge": "Prose corrections that override table values printed earlier in the document.",
+      "pages": [
+        22
+      ]
+    }
+  },
+  "questions": [
+    {
+      "table": "1",
+      "question": "What was Hyderabad branch revenue in Q3 FY2026 (PKR '000)?",
+      "answer": "3,663",
+      "kind": "lookup",
+      "note": "Branch name appears only on the Q1 row; Q3 row must inherit it.",
+      "pages": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "table": "1",
+      "question": "What is the Sindh regional subtotal revenue?",
+      "answer": "537,345",
+      "kind": "aggregate",
+      "pages": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "table": "1",
+      "question": "What is the branch code of the branch whose Q2 cost was 4,409?",
+      "answer": "KH-198",
+      "kind": "reverse-lookup",
+      "note": "Code is on the Q1 row only.",
+      "pages": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "table": "1",
+      "question": "What was Gwadar's Q4 margin?",
+      "answer": "12,010",
+      "kind": "lookup",
+      "pages": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "table": "1",
+      "question": "What is the FY2026 grand total revenue in Table 1?",
+      "answer": "3,062,252",
+      "kind": "aggregate",
+      "pages": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "table": "0",
+      "question": "What group revenue does the executive summary report for FY2026?",
+      "answer": "3,063,502",
+      "kind": "conflict",
+      "note": "Differs from Table 1 grand total; errata says Table 1 is correct.",
+      "pages": [
+        2
+      ]
+    },
+    {
+      "table": "Errata",
+      "question": "What is the correct (audited) group revenue for FY2026?",
+      "answer": "3,062,252",
+      "kind": "conflict",
+      "note": "Requires the errata page plus Table 1, not the executive summary.",
+      "pages": [
+        22
+      ]
+    },
+    {
+      "table": "2",
+      "question": "What is the destination of shipment KF-26-5001?",
+      "answer": "Karachi SITE",
+      "kind": "lookup",
+      "note": "On a continuation page that has no header row.",
+      "pages": [
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "table": "2",
+      "question": "What is the status symbol of shipment KF-26-5001 and what does it mean?",
+      "answer": "✓",
+      "kind": "lookup",
+      "note": "Meaning is defined only in the paragraph above the table.",
+      "pages": [
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "table": "3",
+      "question": "What was Sindh's revenue in H2 FY2026 according to Table 3 as printed?",
+      "answer": "160,845",
+      "kind": "multi-level-header",
+      "note": "Needs FY2026 > H2 > Revenue column path.",
+      "pages": [
+        11
+      ]
+    },
+    {
+      "table": "3",
+      "question": "What was Khyber Pakhtunkhwa's cost in H1 FY2025?",
+      "answer": "144,412",
+      "kind": "multi-level-header",
+      "pages": [
+        11
+      ]
+    },
+    {
+      "table": "3",
+      "question": "Which zone does Balochistan belong to?",
+      "answer": "South",
+      "kind": "row-span",
+      "note": "Zone label is printed once in a vertically merged cell.",
+      "pages": [
+        11
+      ]
+    },
+    {
+      "table": "4",
+      "question": "What was the FY2026 price of a 10-wheeler tyre set in EUR?",
+      "answer": "3.602,75 (= 3602.75)",
+      "kind": "number-format",
+      "note": "European format: dot = thousands, comma = decimals. Stored in the PDF as two fragments, '3' and '.602,75'.",
+      "pages": [
+        12
+      ]
+    },
+    {
+      "table": "4",
+      "question": "What is the FY2026 driver daily allowance?",
+      "answer": "n/a (not available)",
+      "kind": "missing-value",
+      "pages": [
+        12
+      ]
+    },
+    {
+      "table": "5",
+      "question": "What is the maximum transit time for standard freight to mountain zones?",
+      "answer": "120 hours",
+      "kind": "nested-table",
+      "note": "Value is inside a table nested in a cell.",
+      "pages": [
+        12
+      ]
+    },
+    {
+      "table": "5",
+      "question": "What is the penalty for late cold chain delivery?",
+      "answer": "Full replacement value of spoiled goods",
+      "kind": "lookup",
+      "pages": [
+        12
+      ]
+    },
+    {
+      "table": "6",
+      "question": "How many Reefer 20ft vehicles are leased?",
+      "answer": "33",
+      "kind": "rotated-table",
+      "pages": [
+        13
+      ]
+    },
+    {
+      "table": "7",
+      "question": "Who is the number 3 supplier?",
+      "answer": "Atlas Tyres",
+      "kind": "side-by-side",
+      "pages": [
+        14
+      ]
+    },
+    {
+      "table": "7",
+      "question": "What revenue did Mehran Foods generate?",
+      "answer": "87,933",
+      "kind": "side-by-side",
+      "pages": [
+        14
+      ]
+    },
+    {
+      "table": "8",
+      "question": "Should drivers be added to permanent and contract staff to get total headcount?",
+      "answer": "No — drivers are already included in Permanent and Contract (footnote *)",
+      "kind": "footnote",
+      "pages": [
+        14
+      ]
+    },
+    {
+      "table": "8",
+      "question": "How many permanent staff work at Lahore HQ?",
+      "answer": "63",
+      "kind": "footnote",
+      "pages": [
+        14
+      ]
+    },
+    {
+      "table": "8+3",
+      "question": "What is Sindh FY2026 revenue per permanent employee (PKR '000)? Use Table 3 FY2026 H1+H2 revenue and Table 8 permanent headcount.",
+      "answer": "975.9",
+      "kind": "cross-table",
+      "note": "Requires two tables; uses the H2 figure as printed (errata corrects it — see errata question).",
+      "pages": [
+        11,
+        14
+      ]
+    },
+    {
+      "table": "9",
+      "question": "How many litres of diesel did the Quetta depot use in March?",
+      "answer": "89,596",
+      "kind": "split-table",
+      "note": "Quetta is row 7; March is on the continuation page where depot names are absent.",
+      "pages": [
+        15,
+        16
+      ]
+    },
+    {
+      "table": "10",
+      "question": "Who approved AP-317 and for what amount?",
+      "answer": "R. Khattak, PKR 12,300,000",
+      "kind": "scanned-table",
+      "pages": [
+        16
+      ]
+    },
+    {
+      "table": "11",
+      "question": "What is the actual Tolls expense in FY2026?",
+      "answer": "Not reported (cell empty; not yet reconciled)",
+      "kind": "missing-value",
+      "note": "A good pipeline should NOT invent a number here.",
+      "pages": [
+        17
+      ]
+    },
+    {
+      "table": "11",
+      "question": "What was the IT systems variance?",
+      "answer": "(36,700), i.e. 36,700 over budget",
+      "kind": "lookup",
+      "pages": [
+        17
+      ]
+    },
+    {
+      "table": "12",
+      "question": "Has C. Fatima completed Hazmat handling?",
+      "answer": "✗",
+      "kind": "vertical-header",
+      "note": "Answer is the symbol/value in the C. Fatima row, Hazmat handling column.",
+      "pages": [
+        17
+      ]
+    },
+    {
+      "table": "13",
+      "question": "What was the status of the ERP migration in April?",
+      "answer": "amber (at risk)",
+      "kind": "colour-only",
+      "note": "Only recoverable from cell colour plus the legend.",
+      "pages": [
+        18
+      ]
+    },
+    {
+      "table": "14",
+      "question": "What is Atlas Tyres' NTN?",
+      "answer": "4410287-6",
+      "kind": "form",
+      "pages": [
+        18
+      ]
+    },
+    {
+      "table": "14",
+      "question": "Was the vendor approved?",
+      "answer": "Yes (☑ ticked)",
+      "kind": "form",
+      "pages": [
+        18
+      ]
+    },
+    {
+      "table": "15",
+      "question": "How many consignments did the Multan (MUL) depot handle on 23 June?",
+      "answer": "1,720",
+      "kind": "dense-table",
+      "pages": [
+        19
+      ]
+    },
+    {
+      "table": "16b",
+      "question": "How many pallet spaces are free in bay B4 of the Lahore Central depot?",
+      "answer": "108",
+      "kind": "back-to-back",
+      "note": "Karachi's table has a B4 row too; mixing them gives a wrong answer.",
+      "pages": [
+        20
+      ]
+    },
+    {
+      "table": "17",
+      "question": "Who manages the Skardu branch?",
+      "answer": "Ali Hussain",
+      "kind": "rtl-mixed",
+      "pages": [
+        20
+      ]
+    },
+    {
+      "table": "18",
+      "question": "What was the claims ratio?",
+      "answer": "0.37%",
+      "kind": "two-column-layout",
+      "pages": [
+        21
+      ]
+    },
+    {
+      "table": "Errata+3",
+      "question": "What is the corrected Sindh revenue for FY2026 H2?",
+      "answer": "165,166",
+      "kind": "conflict",
+      "note": "Table 3 prints a different value; the errata page overrides it.",
+      "pages": [
+        11,
+        22
+      ]
+    }
+  ]
+}
