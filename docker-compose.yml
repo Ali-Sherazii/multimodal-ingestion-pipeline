@@ -1,0 +1,61 @@
+# Server mode: web app + queue workers + Qdrant + Redis, each in its own container.
+#
+#   docker compose up --build -d             then open http://localhost:8000
+#   docker compose up -d --scale worker=4    more workers share the queue
+#   docker compose logs -f worker            watch files being processed
+#
+# Uploads, saved extractions, reports and logs live in the "data" volume; the database in
+# "qdrant"; queued jobs in "redis" (kept on disk, so they survive a restart).
+# To use the Modal GPU for slow steps: INGEST_GPU_BACKEND=modal plus MODAL_TOKEN_ID and
+# MODAL_TOKEN_SECRET in a .env file next to this one.
+
+x-ingest-env: &ingest-env
+  INGEST_QDRANT_URL: http://qdrant:6333
+  INGEST_QUEUE_URL: redis://redis:6379/0
+  INGEST_UPLOADS_DIR: /data/uploads
+  INGEST_EXTRACTS_DIR: /data/extracted
+  INGEST_REPORTS_DIR: /data/reports
+  INGEST_EXPORTS_DIR: /data/exports
+  INGEST_LOGS_DIR: /data/logs
+  INGEST_GPU_BACKEND: ${INGEST_GPU_BACKEND:-local}
+  MODAL_TOKEN_ID: ${MODAL_TOKEN_ID:-}
+  MODAL_TOKEN_SECRET: ${MODAL_TOKEN_SECRET:-}
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.19.2
+    volumes: [qdrant:/qdrant/storage]
+    restart: unless-stopped
+
+  redis:
+    image: redis:8.8.3-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: [redis:/data]
+    restart: unless-stopped
+
+  api:
+    build: .
+    image: ingest-pipeline:local
+    command: ["ingest", "web", "--host", "0.0.0.0", "--no-browser"]
+    # Only this machine can reach it: the web app has no logins, so anything wider needs an
+    # authenticating proxy in front
+    ports: ["127.0.0.1:8000:8000"]
+    environment: *ingest-env
+    volumes: [data:/data]
+    depends_on: [qdrant, redis]
+    restart: unless-stopped
+
+  worker:
+    image: ingest-pipeline:local
+    command: ["ingest", "worker"]
+    environment: *ingest-env
+    volumes: [data:/data]
+    depends_on: [api, qdrant, redis]
+    deploy:
+      replicas: 2
+    restart: unless-stopped
+
+volumes:
+  qdrant:
+  redis:
+  data:
