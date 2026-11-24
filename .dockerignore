@@ -1,0 +1,18 @@
+# Only src/, pyproject.toml, requirements.lock, config.yaml, access.yaml and scripts/ go
+# into the image. Never secrets (.env) or data.
+.venv/
+**/__pycache__/
+*.pyc
+.env
+.git/
+data/
+outputs/
+qdrant_data/
+extracted/
+reports/
+exports/
+logs/
+eval/
+tests/
+bad_pdfs/
+*.log

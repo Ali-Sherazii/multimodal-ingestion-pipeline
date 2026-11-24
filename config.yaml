@@ -1,0 +1,178 @@
+# Pipeline settings. Any value can be overridden with an environment variable:
+# INGEST_ + the name in capitals, e.g. INGEST_CHUNK_SIZE=800
+
+device: auto                 # auto | cpu | cuda  (auto uses an NVIDIA GPU if present)
+
+# Cloud GPU (modal.com). "modal" sends PDFs, video audio/frames and picture descriptions to a
+# Modal GPU; text and Word files stay local. Needs: pip install modal, then "modal setup".
+gpu_backend: modal           # local | modal. On the GPU, video speech uses large-v3-turbo
+                             # (more accurate than "base", which this machine uses).
+                             # "ingest run --local" (or untick the web box) stays on this machine
+modal_gpu: L4                # T4 (cheapest), L4, A10G, A100 ...
+gpu_whisper_model: large-v3-turbo                  # more accurate than "base"; fast on GPU
+gpu_vision_model: HuggingFaceTB/SmolVLM-Instruct   # 2.2B; better descriptions than 256M
+
+# Chunking, in characters (~4 characters per English word-piece token)
+chunk_size: 400
+chunk_overlap: 100
+table_chunk_tokens: 450      # tables stay whole up to this many reranker tokens (within 512 with the question);
+                             # bigger ones are split by rows, header repeated. 0 = split at chunk_size
+
+# PDF
+pdf_ocr: true                # read text from scanned pages and images
+pdf_force_full_page_ocr: false  # true = OCR every page, even ones with a text layer
+pdf_picture_descriptions: false   # true = each chart/picture (PDF and Word) gets a text description; slow on CPU
+pdf_page_batch: 40           # long PDFs are converted this many pages at a time (keeps memory bounded)
+pdf_hidden_text_filter: true # remove invisible text (white-on-white, under 3 pt) before it is stored
+pdf_watermark_filter: true   # remove diagonal watermark text ("DRAFT - CONFIDENTIAL") before reading
+pdf_garbage_retry: true      # if a PDF's text layer is garbage, re-read every page with OCR
+flag_instructions: true      # flag chunks containing "ignore previous instructions"-style text
+
+# Extraction runs in a separate worker process: if it crashes (e.g. out of memory) only that
+# file fails and the run continues
+isolate_extraction: true
+extract_timeout_minutes: 120 # stop a single file that takes longer than this (0 = no limit)
+
+# Word
+docx_image_ocr: true         # read text inside pictures (screenshots, scans) in Word files
+
+picture_min_px: 100          # skip pictures smaller than this (logos, icons)
+
+# Video
+whisper_model: base          # tiny | base | small | medium | large-v3 (bigger = slower, more accurate)
+whisper_language: null       # null = auto-detect, or e.g. en, ur
+video_scenes: true           # one frame per scene, captured only when the picture changes
+video_scene_ocr: true        # read each scene's on-screen text (slides, captions, labels)
+video_tables: true           # tables on screen read with Docling's table model, kept as
+                             # Markdown tables; only frames whose text forms rows and columns
+formulas: true               # equations in PDFs and video frames written as LaTeX by
+                             # Docling's formula model; GPU only (too slow on a CPU)
+scene_min_seconds: 2         # shorter flashes are not separate scenes
+scene_min_change: 2.0        # lower = more sensitive; slide changes score about 3-8
+frame_captions: false        # also describe each scene with the vision model; slow on CPU
+frame_interval_seconds: 10   # fixed sampling, only if video_scenes is off
+vision_model: HuggingFaceTB/SmolVLM-256M-Instruct
+
+# Embeddings. Changing the model needs a new collection name (stored vectors don't mix)
+embedding_model: BAAI/bge-m3   # 1024 numbers per chunk, plus the keyword weights hybrid search uses;
+                               # multilingual. 2.3 GB, slower on CPU than bge-base (768)
+embedding_query_prompt: ""     # bge-m3 takes none; for bge-small/base use
+                               # "Represent this sentence for searching relevant passages: "
+embedding_batch_size: 32
+
+# Exact model versions (Hugging Face commit ids): an upstream update can't silently change
+# results. scripts/download_models.py fetches exactly these into the Docker image.
+model_revisions:
+  BAAI/bge-m3: 5617a9f61b028005a4858fdac845db406aefb181
+  cross-encoder/ms-marco-MiniLM-L-6-v2: 233902d25c440f23af6f7d6e94d2946bac0bee0a
+  BAAI/bge-reranker-v2-m3: 953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e
+  Systran/faster-whisper-base: ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66
+  mobiuslabsgmbh/faster-whisper-large-v3-turbo: 0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf
+  HuggingFaceTB/SmolVLM-256M-Instruct: 7e3e67edbbed1bf9888184d9df282b700a323964
+  HuggingFaceTB/SmolVLM-Instruct: 81cd9a775a4d644f2faf4e7becff4559b46b14c7
+  docling-project/docling-layout-heron: 8f39ad3c0b4c58e9c2d2c84a38465abf757272d8
+  docling-project/docling-models: 2199320848bb9a8a519d22e4b528185a4f9a6f64
+  docling-project/CodeFormulaV2: ecedbe111d15c2dc60bfd4a823cbe80127b58af4
+
+# Search. Hybrid = meaning (dense) + exact words (bge-m3's sparse weights), the two rankings
+# merged; then the top candidates re-scored by a cross-encoder. eval/results has how they
+# were measured (TAT-DQA, FinQA).
+hybrid_search: true
+bm25: true                   # also rank by BM25 word weights (fastembed, no GPU): +2.2 nDCG@5,
+                             # right document among the reranker's candidates 82.8% -> 86.9%
+reranker_model: BAAI/bge-reranker-v2-m3   # best tested: +7 to +8 points over MiniLM on TAT-DQA,
+                                          # +8 item recall on FinQA; multilingual, reads long chunks.
+                                          # Lighter: cross-encoder/ms-marco-MiniLM-L-6-v2. "" = off
+rerank_candidates: 30
+exact_match: true            # ids and figures in a question (KF-26-5001, 3,663) also looked for as written
+passage_context_chars: 1200  # results: text added around each matched chunk (before + after)
+video_context_seconds: 30    # results: speech added before and after a matched video moment
+
+# Vector database tuning (eval/vectordb_eval.py measured each one). Applied when a collection
+# is created; `ingest tune-db --yes` applies them to the existing one.
+hnsw_m: 16                   # links per vector in Qdrant's search graph
+hnsw_ef_construct: 100       # effort building the graph
+search_ef: null              # effort per search (null = Qdrant's default)
+quantization: int8           # none | int8 (4x smaller copies) | binary (32x smaller)
+quantization_oversampling: 2.0  # compressed search fetches this many times more, then re-scores
+vectors_on_disk: true        # full vectors on disk, int8 copies in RAM: a quarter of the RAM,
+                             # same accuracy and speed (measured)
+fusion: rrf                  # rrf | dbsf: how the dense, keyword and exact rankings merge
+
+# Language model. llm_backend:
+#   gemini: Google's Gemini (key in .env: INGEST_GEMINI_API_KEY=..., free at
+#     https://aistudio.google.com/apikey). On the free tier Google may use what is sent to
+#     improve its products, and the better models allow ~20 answers a day.
+#   modal: our own copy of Gemma 4 on a Modal GPU (set up once: see src/ingest/llm_modal.py).
+#     No daily limit and nothing leaves your Modal account; costs GPU time (~$2.50/hour while
+#     it runs; it stops 4 minutes after the last request). The first request after a quiet
+#     spell waits ~2.5 minutes while it starts. Gemini (if the key is set) answers whenever
+#     it can't, using the model names below.
+# `ingest llm` checks whichever is chosen.
+llm_backend: gemini
+modal_llm_app: ingest-llm
+llm_model: gemini-flash-latest          # writes answers, chat memory snapshots, agents
+router_model: gemini-flash-lite-latest  # reads each question first (fast, cheap)
+llm_temperature: 0.2         # randomness: 0 = always the likeliest words; low = literal answers
+llm_top_p: 0.95              # only words within this much probability are considered
+llm_max_output_tokens: 2048  # the longest reply
+llm_thinking_budget: null    # tokens the model may reason before answering (null = its default;
+                             # Gemma on Modal thinks only when this is above 0)
+calculation_thinking_budget: 1024  # chat questions needing arithmetic (totals, differences):
+                             # think this much first; without it Gemma wrote "less" for "more"
+# Free-tier models are often "busy" for free users (503), and each has its own daily quota:
+# while the model above can't answer, these are tried in order (`ingest llm` lists what your
+# key may use). A model that failed is left alone for a while (30 s, growing to 10 min).
+llm_fallback_models: [gemini-3-flash-preview, gemini-flash-lite-latest]
+llm_timeout_seconds: 90      # one request's limit; a stalled one counts as busy
+llm_retries: 4               # rounds through the models before giving up
+answer_passages: 6           # passages the model reads for one answer
+snapshot_every: 6            # chat memory: every 6 messages, the older ones become a snapshot
+history_messages: 8          # recent messages sent word for word with the snapshot
+context_budget_tokens: 12000 # prompt size limit: snapshot + messages + passages
+
+# Agents (`ingest agent "task"`, or the Agents panel): files they make go to outputs/<user>
+# Their own language model, if it should differ from the chat's: agent_llm_backend gemini |
+# modal ("" = llm_backend); agent_modal_llm_app, e.g. ingest-llm-qwen for Qwen 3.8 27B (set up:
+# see src/ingest/llm_modal.py; "" = modal_llm_app)
+agent_llm_backend: ""
+agent_modal_llm_app: ""
+outputs_dir: outputs
+agent_max_steps: 4           # sub-tasks the planner may split a task into
+agent_max_turns: 10          # tool calls one agent may make before it must report
+agent_verify_rounds: 2       # check-and-fix rounds for each file made
+agent_sandbox: true          # agents may run Python in a Modal sandbox (no network)
+agent_max_output_tokens: 16384  # an agent's reply holds whole files (a 30-row table, CSV)
+agent_mcp_servers: []        # more MCP servers, e.g. [{name: fs, command: npx, args: [...]}]
+agent_engine: langgraph      # langgraph: the steps run as a LangGraph graph, each finished step
+                             # saved (`ingest agent --resume ID` carries on a stopped task;
+                             # `ingest agent --graph` draws it). custom: the same agents, plain loop
+
+# Permissions: groups allowed to read each file come from access.yaml (rules on paths);
+# files no rule matches get default_access. Searches can be limited to a user's groups.
+access_file: access.yaml
+default_access: [everyone]
+# Users, sessions and chats: with no users added (`ingest user add NAME`), the web app has no
+# login; once one exists, everyone logs in and sees only their own and shared files
+app_db: data/app.db
+session_hours: 72
+
+# Vector database. By default it lives in the qdrant_data folder, no server needed.
+# To use Qdrant Cloud or another Qdrant server, put INGEST_QDRANT_URL and
+# INGEST_QDRANT_API_KEY in the .env file (keeps the key out of this shared file).
+qdrant_path: qdrant_data
+collection: ingestion-bge-m3-bm25    # one per embedding model and vector layout. New with BM25:
+                                     # fill it with `ingest reindex` (from saved extractions,
+                                     # nothing re-read). Older collections (ingestion-bge-m3-hybrid,
+                                     # ingestion-bge-m3, -bge-base, ingestion) are kept, unused
+
+# Server mode (docker-compose.yml): uploads go on a Redis queue that `ingest worker`
+# processes take them from. Empty = this process ingests uploads itself (laptop mode).
+queue_url:
+
+uploads_dir: data/uploads    # where files uploaded in the web app are kept
+extracts_dir: extracted      # saved extractions, by content hash: re-runs never re-read a file
+reports_dir: reports
+exports_dir: exports         # where "ingest export" writes chunks + embeddings as JSON
+logs_dir: logs
+log_level: INFO

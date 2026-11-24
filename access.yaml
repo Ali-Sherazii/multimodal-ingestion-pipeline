@@ -1,0 +1,14 @@
+# Who may read each ingested file. Each chunk stores these groups, and a search can be
+# limited to a user's groups (`ingest search "..." --groups hr,everyone`), so nobody is
+# shown text from a file they shouldn't see. The first rule whose pattern matches the file's
+# full path wins (* matches anything, folders included; / in paths; case doesn't matter).
+# Files no rule matches get `default`. After editing, `ingest sync <folder>` re-applies the
+# rules to stored files without re-reading or re-embedding them.
+
+default: [everyone]
+
+rules: []
+#  - match: "*/Data_to_be_ingested/HR/*"
+#    groups: [hr]
+#  - match: "*/data/uploads/confidential*"
+#    groups: [managers]

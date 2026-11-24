@@ -1,0 +1,32 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+*.log
+
+# Made by runs: the local database, saved extractions, reports, exports, logs
+qdrant_data/
+extracted/
+reports/
+exports/
+logs/
+
+# Files people put in or upload
+data/input/*
+!data/input/.gitkeep
+data/uploads/
+# Users (password hashes), sessions and chats; files the agents made
+data/app.db*
+outputs/
+
+# Evaluation: downloaded benchmark pages (re-made by the eval scripts)
+eval/cache/
+eval/tables/cache/
+eval/finqa/data/
+# The agents' saved steps (LangGraph checkpoints)
+data/agent_runs.db*
+
+# Test PDFs: bad_pdfs/make_bad_pdfs.py makes them
+bad_pdfs/*.pdf

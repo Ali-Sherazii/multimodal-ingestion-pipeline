@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ingest"
+version = "0.1.0"
+description = "Multimodal ingestion pipeline: text, PDF, Word and video into a vector database"
+requires-python = ">=3.11"
+dependencies = [
+    "docling>=2.60",
+    "faster-whisper>=1.1",
+    "sentence-transformers>=3.0",
+    "qdrant-client>=1.12",
+    "langchain-text-splitters>=0.3",
+    "charset-normalizer>=3.0",
+    "pydantic-settings>=2.4",
+    "pyyaml>=6.0",
+    "pillow>=10.1",
+    "fastapi>=0.110",
+    "uvicorn>=0.30",
+    "python-multipart>=0.0.9",
+    "scenedetect>=0.6",
+    "fastembed>=0.9",       # BM25 word weights for search
+    "google-genai>=2.30",   # Gemini: answers, question router, chat memory, agents
+    "mcp>=2.3,<3",          # Model Context Protocol: the agents' tools, `ingest mcp`
+    "langgraph>=1.2,<2",    # the agents' steps as a graph (agents/graph.py)
+    "langgraph-checkpoint-sqlite>=3.1,<4",  # each finished step saved: resumable
+    "python-docx>=1.1",     # Word files the agents make
+    "openpyxl>=3.1",        # Excel files the agents make
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "fpdf2>=2.7", "httpx>=0.27", "fakeredis>=2.20", "rq>=2.0", "redis>=5.0"]
+gpu = ["modal>=1.0"]   # cloud GPU via modal.com: pip install -e ".[gpu]", then "modal setup"
+server = ["rq>=2.0", "redis>=5.0"]   # job queue for `ingest worker` (docker-compose.yml)
+
+[project.scripts]
+ingest = "ingest.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ingest = ["web/static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: loads ML models (Docling, Whisper, embeddings); deselect with -m 'not slow'"]
